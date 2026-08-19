@@ -1,4 +1,6 @@
 import logging
+
+import joblib
 import pandas as pd
 import streamlit as st
 
@@ -7,7 +9,7 @@ from dap.analysis.regression import (
     get_most_common_disease_for_breed,
     run_regression,
 )
-from dap.config import DATA_PATH
+from dap.config import DATA_PATH, MODEL_PATH
 from dap.data.loader import load_data
 from dap.models.cslb_model import predict_cslb, train_cslb_model
 from dap.utils.logging_config import configure_logging
@@ -148,13 +150,6 @@ with col_right:
 def get_app_data():
     return load_data(DATA_PATH)
 
-@st.cache_resource(show_spinner="Training CSLB prediction model...")
-def get_cslb_model(data: pd.DataFrame):
-    return train_cslb_model(
-        data=data,
-        test_size=0.2,
-        random_state=42,
-    )
 
 def init_state() -> None:
     defaults = {
@@ -424,7 +419,7 @@ def render_cslb_page(data: pd.DataFrame) -> None:
             )
 
             try:
-                trained_model = get_cslb_model(data)
+                trained_model = joblib.load(MODEL_PATH)
 
                 prediction = predict_cslb(
                     trained_model=trained_model,
@@ -467,8 +462,8 @@ def render_cslb_result() -> None:
 
     if predicted_score < 40:
         st.success(
-            f"Score {predicted_score:.1f}: no strong indication of cognitive "
-            "dysfunction from this educational model."
+            f"No strong indication of cognitive "
+            "dysfunction from this model. Your dog is safe!"
         )
 
         if st.button("🔄 Run another assessment"):
@@ -477,9 +472,8 @@ def render_cslb_result() -> None:
 
     elif 40 <= predicted_score <= 60:
         st.warning(
-            f"Score {predicted_score:.1f}: possible early signs may be present "
-            "according to this model. Consider veterinary consultation if "
-            "there are real behavioural concerns."
+            f"There is a possibility of your dog having symptoms of cognitive dysfunction! "
+            f"Kindly monitor your dogs actions carefully for 6 months and answer some follow up questions:"
         )
 
         st.markdown("---")
@@ -576,14 +570,13 @@ def render_cslb_result() -> None:
 
             if final_score < 50:
                 st.success(
-                    "The follow-up score is below the educational threshold "
-                    "used in this application."
+                    "NEW UPDATE :The follow-up CSLB score is below the educational threshold used in this application "
+                    "\nNo need to worry! your dog has no signs of cognitive dysfunction!"
                 )
             else:
                 st.error(
-                    "The follow-up score is above the educational threshold "
-                    "used in this application. Consult a veterinarian if "
-                    "your dog shows concerning symptoms."
+                    "NEW UPDATE : The follow-up CSLB score is above the educational threshold "
+                    "used in this application. He/she has symptoms of cognitive dysfunction! Kindly contact the vet as soon as possible"
                 )
 
             if st.button("🔄 Start over"):
@@ -592,9 +585,8 @@ def render_cslb_result() -> None:
 
     else:
         st.error(
-            f"Score {predicted_score:.1f}: this model indicates stronger "
-            "cognitive dysfunction-related patterns. Seek professional "
-            "veterinary guidance if symptoms are present."
+            f"Score {predicted_score:.1f}: this model indicates strong "
+            "cognitive dysfunction-related patterns. Kindly contact the vet as soon as possible."
         )
 
         if st.button("🔄 Run another assessment"):
