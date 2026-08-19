@@ -37,9 +37,23 @@ data/final.csv  (created local data)
 Streamlit Webapp interface
 ```
 
+## Local installation
+
+```bash
+git clone https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment.git
+cd dog_aging_project_MLOps_deployment
+
+python -m venv .venv
+```
+
+Install the project and developer tools:
+
+```bash
+pip install -e ".[dev]"
+```
 ## Data setup
 
-This repository does not include DAP data due to data user agreement.
+This repository does not include the required DAP data for the model training and statistical analysis due to data user agreement.
 
 1. Obtain approved access to Dog Aging Project Curated Data.
 2. Make these tables available in your SQL environment:
@@ -60,28 +74,6 @@ data/final.csv
 
 See `sql/README.md` and `data/README.md` for details.
 
-## Local installation
-
-```bash
-git clone https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment.git
-cd dog_aging_project_MLOps_deployment
-
-python -m venv .venv
-```
-
-Install the project and developer tools:
-
-```bash
-pip install -e ".[dev]"
-```
-
-## Test the project
-
-```bash
-pytest
-ruff check .
-```
-
 ## Train the model
 
 After the final data`final.csv` is placed in`data/`:
@@ -95,6 +87,12 @@ This creates local artifacts of the CSLB model:
 ```text
 artifacts/cslb_model.joblib
 artifacts/cslb_model.metrics.json
+```
+## Test the project
+
+```bash
+pytest
+ruff check .
 ```
 
 ## Run the Streamlit app
@@ -130,9 +128,9 @@ artifacts/  Local trained models and metrics
 Python · Streamlit · SQL · GitHub
 
 <img width="975" height="374" alt="image" src="https://github.com/user-attachments/assets/6ec24864-ced5-47e9-b0e0-a5ee23516efa" />
----
+
 <img width="975" height="865" alt="image" src="https://github.com/user-attachments/assets/b3041261-55e8-4ec3-a07e-756b4dbb84bd" />
----
+
 
 > Educational project only. This application is not a veterinary diagnostic
 > device and must not be used for clinical or treatment decisions.
