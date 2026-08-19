@@ -4,7 +4,7 @@ This folder contains local data only. No Dog Aging Project data is included in t
 
 ## Required file
 
-Before running the project, create:
+Before running the project, the local data needs to be created with name:
 
 ```text
 data/final.csv
@@ -12,7 +12,7 @@ data/final.csv
 
 ## How to create it
 
-1. Obtain approved access to Dog Aging Project Curated Data.
+1. Obtain approved access to Dog Aging Project Curated Data and required datasets.
 2. Run the sql query in:
 
 ```text

@@ -5,7 +5,7 @@ Use this create_final_dataset.sql to create the project-ready final.csv used by 
 
 ## Required DAP source tables
 
-The SQL query requires access to:
+The SQL query requires access to these csv files:
 
 - `DAP_2021_HLES_dog_owner_v1`
 - `DAP_2021_CSLB_v1`
