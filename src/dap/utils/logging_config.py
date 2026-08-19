@@ -1,0 +1,10 @@
+import logging
+
+from dap.config import LOG_LEVEL
+
+
+def configure_logging() -> None:
+    logging.basicConfig(
+        level=LOG_LEVEL.upper(),
+        format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    )
