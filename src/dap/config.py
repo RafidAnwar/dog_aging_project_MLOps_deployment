@@ -18,3 +18,20 @@ MODEL_PATH = Path(
 )
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
+
+MLFLOW_TRACKING_URI = os.getenv(
+    "MLFLOW_TRACKING_URI",
+    f"sqlite:///{PROJECT_ROOT / 'mlflow.db'}",
+)
+
+MLFLOW_EXPERIMENT_NAME = os.getenv(
+    "MLFLOW_EXPERIMENT_NAME",
+    "dap-cslb-regression",
+)
+
+MLFLOW_ARTIFACT_ROOT = Path(
+    os.getenv(
+        "MLFLOW_ARTIFACT_ROOT",
+        PROJECT_ROOT / "mlartifacts",
+    )
+)
