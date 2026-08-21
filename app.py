@@ -150,6 +150,16 @@ with col_right:
 def get_app_data():
     return load_data(DATA_PATH)
 
+@st.cache_resource(show_spinner="Loading trained CSLB model...")
+def get_cslb_model():
+    if not MODEL_PATH.exists():
+        raise FileNotFoundError(
+            f"Model artifact not found: {MODEL_PATH}\n\n"
+            "Train the model first by running:\n"
+            "python scripts/train_cslb.py"
+        )
+
+    return joblib.load(MODEL_PATH)
 
 def init_state() -> None:
     defaults = {
@@ -262,7 +272,7 @@ def render_home() -> None:
                         """, unsafe_allow_html=True)
 
 
-def render_cslb_page(data: pd.DataFrame) -> None:
+def render_cslb_page() -> None:
     if st.button("← Back to Home"):
         go_home()
         st.rerun()
@@ -419,7 +429,7 @@ def render_cslb_page(data: pd.DataFrame) -> None:
             )
 
             try:
-                trained_model = joblib.load(MODEL_PATH)
+                trained_model = get_cslb_model()
 
                 prediction = predict_cslb(
                     trained_model=trained_model,
@@ -768,7 +778,7 @@ def main() -> None:
         render_home()
 
     elif st.session_state.page == "cslb":
-        render_cslb_page(data)
+        render_cslb_page()
 
     elif st.session_state.page == "regression":
         render_regression_page(data, breed_list)
