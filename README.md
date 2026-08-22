@@ -78,16 +78,49 @@ See `sql/README.md` and `data/README.md` for details.
 
 After the final data`final.csv` is placed in`data/`:
 
+## Experiment tracking with MLflow
+
+This project tracks CSLB regression experiments locally using MLflow.
+
+### Train a baseline
+
 ```bash
-python scripts/train_cslb.py
+python scripts/train_cslb.py --model-name linear_regression
 ```
 
-This creates local artifacts of the CSLB model:
+### Compare models
+
+```bash
+python scripts/train_cslb.py --model-name ridge --alpha 0.1
+python scripts/train_cslb.py --model-name ridge --alpha 1.0
+python scripts/train_cslb.py --model-name random_forest --n-estimators 200
+```
+
+### Open the MLflow UI
+
+```bash
+mlflow server 
+```
+
+Then open `http://127.0.0.1:5000`.
+
+Each training run logs:
+
+- Model type and hyperparameters.
+- MAE, RMSE, and R².
+- Feature schema.
+- Prediction-error plot.
+- Serialized scikit-learn model artifact.
+
+The Streamlit interface loads the model saved at:
 
 ```text
 artifacts/cslb_model.joblib
-artifacts/cslb_model.metrics.json
 ```
+
+After choosing a preferred run, rerun that configuration to make it the
+local serving artifact.
+
 ## Test the project
 
 ```bash
@@ -115,17 +148,18 @@ streamlit run app.py
 ## Repository layout
 
 ```text
-sql/        Reproducible SQL dataset-selection query
-data/       Local final.csv only; excluded from Git
-src/dap/    Reusable Python application package
-scripts/    Repeatable command-line workflows
-tests/      Automated tests using synthetic data
-artifacts/  Local trained models and metrics
+sql/          Reproducible SQL dataset-selection query
+data/         Local final.csv only; excluded from Git
+src/dap/      Reusable Python application package
+scripts/      Repeatable command-line workflows
+tests/        Automated tests using synthetic data
+artifacts/    Local trained models and metrics
+mlartifacts/  MLFlow local logs
 ```
 
 ## Tech Stack
 
-Python · Streamlit · SQL · GitHub
+Python · Streamlit · SQL · GitHub · MLFlow
 
 <img width="975" height="374" alt="image" src="https://github.com/user-attachments/assets/6ec24864-ced5-47e9-b0e0-a5ee23516efa" />
 

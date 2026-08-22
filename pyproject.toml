@@ -13,8 +13,10 @@ dependencies = [
     "numpy",
     "pandas",
     "scikit-learn",
+    "matplotlib",
     "statsmodels",
     "streamlit",
+    "mlflow",
 ]
 
 [project.optional-dependencies]
