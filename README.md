@@ -23,7 +23,7 @@ Approved DAP data access
 sql/create_final_dataset.sql
         |
         v
-data/final.csv  (created local data)
+data/final.csv  (created local data, tracked via DVC)
         |
         +----------------------------+
         |                            |
@@ -53,8 +53,19 @@ pip install -e ".[dev]"
 ```
 ## Data setup
 
-This repository does not include the required DAP data for the model training and statistical analysis due to data user agreement.
+This repository does not include the required DAP data for the model training and statistical analysis due to data 
+use agreement of the DAP authorities.
 
+**Option 1**: Pull Versioned Data via DVC
+For only model reproducibility:
+```bash
+# Pull final.csv from Azure Blob Storage via DVC
+dvc pull
+```
+This downloads the exact final.csv version used in the original experiments.
+
+
+**Option 2**: Regenerate Data from DAP Source (Requires DAP Access)
 1. Obtain approved access to Dog Aging Project Curated Data.
 2. Make these tables available in your SQL environment:
    - `DAP_2021_HLES_dog_owner_v1`
@@ -74,9 +85,37 @@ data/final.csv
 
 See `sql/README.md` and `data/README.md` for details.
 
-## Train the model
+## Reproducibility with DVC
 
-After the final data`final.csv` is placed in`data/`:
+This project uses DVC (Data Version Control) for data versioning and pipeline reproducibility:
+
+**Commands to reproduce**:
+
+```bash
+# Run the full training pipeline with default model linear_regression
+dvc repro 
+
+# Run with different model and parameters
+dvc repro -S train.model_name=ridge -S train.test_size=0.25
+
+# Check pipeline status
+dvc status
+
+# View pipeline graph
+dvc dag
+```
+
+## Train the Model
+After final.csv is in place (via dvc pull or manual placement):
+
+```absh
+# Run via DVC pipeline (recommended)
+dvc repro
+
+# Or run directly (bypasses DVC)
+python scripts/train_cslb.py
+```
+The trained model is saved to artifacts/cslb_model.joblib
 
 ## Experiment tracking with MLflow
 
@@ -85,15 +124,17 @@ This project tracks CSLB regression experiments locally using MLflow.
 ### Train a baseline
 
 ```bash
-python scripts/train_cslb.py --model-name linear_regression
+# Via DVC (uses params.yaml)
+dvc repro
 ```
 
 ### Compare models
 
 ```bash
-python scripts/train_cslb.py --model-name ridge --alpha 0.1
-python scripts/train_cslb.py --model-name ridge --alpha 1.0
-python scripts/train_cslb.py --model-name random_forest --n-estimators 200
+# Update params.yaml, then run
+dvc repro -S train.model_name=ridge -S train.test_size=0.2
+dvc repro -S train.model_name=ridge -S train.test_size=0.25
+dvc repro -S train.model_name=random_forest -S train.n_estimators=200
 ```
 
 ### Open the MLflow UI
@@ -111,6 +152,7 @@ Each training run logs:
 - Feature schema.
 - Prediction-error plot.
 - Serialized scikit-learn model artifact.
+- Git commit hash (for DVC integration).
 
 The Streamlit interface loads the model saved at:
 
@@ -149,17 +191,18 @@ streamlit run app.py
 
 ```text
 sql/          Reproducible SQL dataset-selection query
-data/         Local final.csv only; excluded from Git
+data/         Local final.csv; tracked via DVC, excluded from Git
 src/dap/      Reusable Python application package
 scripts/      Repeatable command-line workflows
 tests/        Automated tests using synthetic data
-artifacts/    Local trained models and metrics
-mlartifacts/  MLFlow local logs
+artifacts/    Local trained models and metrics (excluded from Git)
+mlartifacts/  MLflow local logs (excluded from Git)
+.dvc/         DVC configuration and cache (excluded from Git)
 ```
 
 ## Tech Stack
 
-Python · Streamlit · SQL · GitHub · MLFlow
+Python · Streamlit · SQL · GitHub · MLFlow · DVC
 
 <img width="975" height="374" alt="image" src="https://github.com/user-attachments/assets/6ec24864-ced5-47e9-b0e0-a5ee23516efa" />
 
