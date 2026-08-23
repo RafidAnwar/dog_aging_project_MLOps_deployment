@@ -76,6 +76,7 @@ def log_training_run(
     output_dir: str | Path,
     y_test: pd.Series,
     y_pred,
+    git_commit: str = "unknown",
 ) -> str:
     output_path = Path(output_dir)
     output_path.mkdir(parents=True, exist_ok=True)
@@ -101,6 +102,7 @@ def log_training_run(
                 "task": "cslb-score-regression",
                 "data_source": "DAP 2021 curated data",
                 "model_family": training_result.model_name,
+                "git_commit": git_commit,
             }
         )
 
