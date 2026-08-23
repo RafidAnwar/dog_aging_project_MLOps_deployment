@@ -1,0 +1,16 @@
+stages:
+  train:
+    cmd: python scripts/train_cslb.py --model-name linear_regression
+    deps:
+      - data/final.csv
+      - scripts/train_cslb.py
+      - src/dap/models/cslb_model.py
+    outs:
+      - artifacts/cslbmodel.joblib
+    metrics:
+      - artifacts/cslbmodel.metrics.json:
+          cache: false
+    params:
+      - train.model_name
+      - train.test_size
+      - train.random_state
