@@ -175,6 +175,24 @@ ruff check .
 ```bash
 streamlit run app.py
 ```
+## Containarization via Docker
+
+Build the application image:
+
+```bash
+docker build -t dap-mlops.
+```
+
+Run the container locally:
+
+```bash
+docker run --rm -p 8501:8501 dap-mlops
+```
+
+Then Open:
+
+http://localhost:8501
+
 
 ## Webapp Usage Guide
 - Select the analysis you want to run.
