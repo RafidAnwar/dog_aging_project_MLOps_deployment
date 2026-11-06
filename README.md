@@ -1,4 +1,4 @@
-# 🐕 DAP by Analytic Avengers
+# 🐕 DAP by Analytic Avengers >> ![CI](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/ci.yml/badge.svg)
 
 A web app that predicts canine cognitive dysfunction and analyses disease risk factors using 40,000+ samples from the [Dog Aging Project](https://dogagingproject.org).
 
