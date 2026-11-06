@@ -9,7 +9,6 @@ from sklearn.model_selection import train_test_split
 
 from dap.data.loader import CSLB_FEATURES
 
-
 TARGET_COLUMN = "cslb_score"
 
 
