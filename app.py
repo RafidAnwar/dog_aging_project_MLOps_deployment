@@ -11,7 +11,7 @@ from dap.analysis.regression import (
 )
 from dap.config import DATA_PATH, MODEL_PATH
 from dap.data.loader import load_data
-from dap.models.cslb_model import predict_cslb, train_cslb_model
+from dap.models.cslb_model import predict_cslb
 from dap.utils.logging_config import configure_logging
 
 configure_logging()
@@ -472,7 +472,7 @@ def render_cslb_result() -> None:
 
     if predicted_score < 40:
         st.success(
-            f"No strong indication of cognitive "
+            "No strong indication of cognitive "
             "dysfunction from this model. Your dog is safe!"
         )
 
@@ -482,8 +482,8 @@ def render_cslb_result() -> None:
 
     elif 40 <= predicted_score <= 60:
         st.warning(
-            f"There is a possibility of your dog having symptoms of cognitive dysfunction! "
-            f"Kindly monitor your dogs actions carefully for 6 months and answer some follow up questions:"
+            "There is a possibility of your dog having symptoms of cognitive dysfunction! "
+            "Kindly monitor your dogs actions carefully for 6 months and answer some follow up questions:"
         )
 
         st.markdown("---")
