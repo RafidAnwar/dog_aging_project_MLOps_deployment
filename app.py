@@ -762,7 +762,7 @@ def main() -> None:
     except (FileNotFoundError, ValueError) as error:
         logger.exception("Dataset loading failed")
 
-        st.error("Dataset setup is incomplete.")
+        st.error("Dataset setup is incomplete. Create the final.csv file")
 
         st.code(
             "1. Obtain approved Dog Aging Project data access.\n"

@@ -14,12 +14,6 @@ build/
 dist/
 *.egg-info/
 
-# Data: DAP source data and derived final.csv must never be committed
-data/*.csv
-data/*.parquet
-data/*.xlsx
-data/*.json
-
 # Local model artifacts
 artifacts/*
 !artifacts/.gitkeep

@@ -14,7 +14,7 @@ COPY asset ./asset
 COPY scripts ./scripts
 COPY app.py .
 COPY README.md .
-COPY data ./data
+COPY data/final.csv ./data/final.csv
 COPY artifacts ./artifacts
 
 ENV PYTHONPATH=/app/src

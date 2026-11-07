@@ -1,16 +1,6 @@
 # Local data directory
 
-This folder contains local data only. No Dog Aging Project data is included in this repository.
-
-## Required file
-
-Before running the project, the local data needs to be created with name:
-
-```text
-data/final.csv
-```
-
-## How to create it
+This folder already contains the preprocessed ML ready final.csv dataset. So no need to create it again, but the process for creation is:
 
 1. Obtain approved access to Dog Aging Project Curated Data and required datasets.
 2. Run the sql query in:
@@ -24,6 +14,4 @@ sql/create_final_dataset.sql
 
 ## Data Use Agreement
 
-The `.gitignore` file excludes `data/*.csv`.
-
-Do not remove that rule or upload DAP raw data or generated data to a public repository.
+Do not upload DAP raw data or generated data to a public repository or for commercial usage.
