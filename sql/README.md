@@ -1,7 +1,8 @@
 # Create final dataset:
 
-This repository does not contain Dog Aging Project (DAP) data due to Data Use Agreement. 
-Use this create_final_dataset.sql to create the project-ready final.csv used by webapp.
+This repository contains the project-ready final.csv used by webapp.
+
+It is created using this create_final_dataset.sql.
 
 ## Required DAP source tables
 
@@ -37,4 +38,4 @@ The generated CSV must include at least:
 
 ## Data-use rule
 
-Do not commit or upload DAP raw data or the generated `final.csv` to a public GitHub repository.
+Do not upload DAP raw data or the generated `final.csv` to another repository or use it for commercial purposes.

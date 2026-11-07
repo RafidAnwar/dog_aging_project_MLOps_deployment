@@ -1,4 +1,4 @@
-# 🐕 DAP by Analytic Avengers >> ![CI](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/ci.yml/badge.svg)
+# 🐕 DAP by Analytic Avengers >> ![Continuous Integration](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/ci.yml/badge.svg) ![Continuous Deployment](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/deploy.yml/badge.svg)
 
 A web app that predicts canine cognitive dysfunction and analyses disease risk factors using 40,000+ samples from the [Dog Aging Project](https://dogagingproject.org).
 
@@ -23,15 +23,30 @@ Approved DAP data access
 sql/create_final_dataset.sql
         |
         v
-data/final.csv  (created local data)
+data/final.csv
         |
         +----------------------------+
         |                            |
         |                            v
         |                   scripts/train_cslb.py
         |                            |
+        |                            v
+        |                        MLflow tracking
+        |                            |
         v                            v
      app.py  <------------artifacts/cslb_model.joblib
+        |
+        v
+Docker image
+        |
+        v
+Docker Hub
+        |
+        v
+GitHub Actions CI/CD
+        |
+        v
+Azure App Service
         |
         v
 Streamlit Webapp interface
@@ -53,8 +68,7 @@ pip install -e ".[dev]"
 ```
 ## Data setup
 
-This repository does not include the required DAP data for the model training and statistical analysis due to data 
-use agreement of the DAP authorities.
+This repository already contains the project-ready final.csv used by webapp.
 
 Steps to regenerate Data from DAP Source (Requires DAP Access)
 1. Obtain approved access to Dog Aging Project Curated Data.
@@ -75,9 +89,6 @@ data/final.csv
 ```
 
 See `sql/README.md` and `data/README.md` for details.
-
-## Train the Model
-After the final data`final.csv` is placed in`data/`:
 
 ## Experiment tracking with MLflow
 
@@ -139,7 +150,7 @@ streamlit run app.py
 Build the application image:
 
 ```bash
-docker build -t dap-mlops.
+docker build -t dap-mlops .
 ```
 
 Run the container locally:
@@ -152,6 +163,64 @@ Then Open:
 
 http://localhost:8501
 
+## CI/CD and Deployment
+
+This project uses GitHub Actions to automate quality checks, Docker image creation, Docker Hub publishing, and deployment to Azure App Service.
+
+### CI workflow
+
+The CI workflow runs automatically on every push to `main` and on pull requests targeting `main`.
+
+It performs the following checks:
+
+- Runs `ruff check .` for code-quality and linting checks.
+- Runs `pytest` for automated tests.
+- Builds the Docker image to verify that the application can be containerized.
+
+### CD workflow
+
+The CD workflow runs when changes are merged or pushed to the `main` branch.
+
+It performs the following steps:
+
+1. Builds a new Docker image from the latest `main` branch.
+2. Pushes the image to Docker Hub.
+3. Restarts the Azure App Service.
+4. Azure pulls the updated image and serves the updated application.
+
+
+### Deployment pipeline
+
+```text
+Push or merge to main
+        |
+        v
+GitHub Actions
+        |
+        +--> Ruff linting
+        |
+        +--> Pytest tests
+        |
+        v
+Docker image build
+        |
+        v
+Push to Docker Hub
+        |
+        v
+Azure App Service restart
+        |
+        v
+Updated Streamlit web application
+```
+
+### Docker Hub image
+
+The deployed Docker image is available at:
+
+```text
+[https://hub.docker.com/r/rafidanwar/dap](https://hub.docker.com/r/rafidanwar/dap)
+```
 
 ## Webapp Usage Guide
 - Select the analysis you want to run.
@@ -167,18 +236,19 @@ http://localhost:8501
 ## Repository layout
 
 ```text
-sql/          Reproducible SQL dataset-selection query
-data/         Local final.csv; excluded from Git
-src/dap/      Reusable Python application package
-scripts/      Repeatable command-line workflows
-tests/        Automated tests using synthetic data
-artifacts/    Local trained models and metrics (excluded from Git)
-mlartifacts/  MLflow local logs (excluded from Git)
+sql/                   Reproducible SQL dataset-selection query
+data/                  Processed dataset used by the application
+src/dap/               Reusable Python application package
+scripts/               Repeatable command-line workflows
+tests/                 Automated tests using synthetic data
+artifacts/             Trained model artifacts used by the application
+.github/workflows/     GitHub Actions CI/CD workflows
+Dockerfile             Docker configuration for the Streamlit application
 ```
 
 ## Tech Stack
 
-Python · Streamlit · SQL · GitHub · MLFlow 
+Python · Streamlit · SQL · MLflow · Docker · GitHub Actions · Docker Hub · Azure App Service 
 
 <img width="975" height="374" alt="image" src="https://github.com/user-attachments/assets/6ec24864-ced5-47e9-b0e0-a5ee23516efa" />
 
