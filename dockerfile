@@ -15,7 +15,7 @@ COPY scripts ./scripts
 COPY app.py .
 COPY README.md .
 COPY data/final.csv ./data/final.csv
-COPY artifacts ./artifacts
+COPY artifacts/cslb_model.joblib ./artifacts/cslb_model.joblib
 
 ENV PYTHONPATH=/app/src
 ENV DAPDATAPATH=/app/data/final.csv
