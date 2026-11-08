@@ -17,6 +17,7 @@ dist/
 # Local model artifacts
 artifacts/*
 !artifacts/.gitkeep
+!artifacts/cslb_model.joblib
 
 # Environment variables and Streamlit secrets
 .env

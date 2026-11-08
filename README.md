@@ -1,4 +1,4 @@
-# 🐕 DAP by Analytic Avengers >> ![Continuous Integration](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/ci.yml/badge.svg) ![Continuous Deployment](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/deploy.yml/badge.svg)
+# 🐕 DAP by Analytic Avengers >> ![Continuous Integration](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/ci.yml/badge.svg) ![Continuous Deployment](https://github.com/RafidAnwar/dog_aging_project_MLOps_deployment/actions/workflows/cd.yml/badge.svg)
 
 A web app that predicts canine cognitive dysfunction and analyses disease risk factors using 40,000+ samples from the [Dog Aging Project](https://dogagingproject.org).
 
@@ -214,13 +214,8 @@ Azure App Service restart
 Updated Streamlit web application
 ```
 
-### Docker Hub image
+The deployed Docker image is available at: https://hub.docker.com/r/rafidanwar/dap
 
-The deployed Docker image is available at:
-
-```text
-[https://hub.docker.com/r/rafidanwar/dap](https://hub.docker.com/r/rafidanwar/dap)
-```
 
 ## Webapp Usage Guide
 - Select the analysis you want to run.
